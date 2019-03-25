@@ -1,11 +1,11 @@
 // @TODO: YOUR CODE HERE!
-var svgWidth = 960;
+var svgWidth = 850;
 var svgHeight = 500;
 
 var margin = {
   top: 20,
   right: 40,
-  bottom: 80,
+  bottom: 100,
   left: 100
 };
 
@@ -119,13 +119,10 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   circlesGroup.call(toolTip);
 
-  circlesGroup.on("mouseover", function(data) {
-    toolTip.show(data, this);
-  })
+  circlesGroup
+    .on("mouseover", toolTip.show)
     // onmouseout event
-    .on("mouseout", function(data, index) {
-      toolTip.hide(data, this);
-    });
+    .on("mouseout", toolTip.hide);
 
   return circlesGroup;
 }
@@ -192,16 +189,16 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     .attr("fill", "blue")
     .attr("opacity", ".5");
 
-  var circleText = circleTextGroup.selectAll('text')
+  var circleText = circleTextGroup.selectAll("text")
     .data(stateData)
     .enter()
-    .append('text')
-    .attr('x', d => xLinearScale(d[chosenXAxis]))
-    .attr('y', d => yLinearScale(d[chosenYAxis]))
+    .append("text")
+    .attr("x", d => xLinearScale(d[chosenXAxis]))
+    .attr("y", d => yLinearScale(d[chosenYAxis]))
     .text(d => d.abbr)
-    .attr('font-size', '12px')
-    .attr('stroke', 'white')
-    .attr('text-anchor', 'middle');
+    .attr("font-size", "12px")
+    .attr("stroke", "white")
+    .attr("text-anchor", "middle");
 
   console.log(chartGroup);
   // Create group for  2 x- axis labels
@@ -248,7 +245,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
     .attr("value", "smokes") // value to grab for event listener
-    .classed("active", false)
+    .classed("inactive", true)
     .text("Smokers (%)");
 
   var obeseLabel = yLabelsGroup.append("text")
@@ -256,7 +253,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
     .attr("value", "obesity") // value to grab for event listener
-    .classed("active", false)
+    .classed("inactive", true)
     .text("Obese (%)");
 
   // updateToolTip function above csv import
