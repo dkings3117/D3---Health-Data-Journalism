@@ -44,7 +44,9 @@ function xScale(stateData, chosenXAxis) {
 function yScale(stateData, chosenYAxis) {
   // create scales
   var yLinearScale = d3.scaleLinear()
-    .domain([0, 1.1 * d3.max(stateData, d => d[chosenYAxis])])
+    .domain([d3.min(stateData, d =>d[chosenYAxis]) * 0.9,
+      d3.max(stateData, d => d[chosenYAxis]) * 1.1
+    ])
     .range([height, 0]);
 
   return yLinearScale;
@@ -185,7 +187,7 @@ d3.csv("assets/data/data.csv").then(function(stateData) {
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
     .attr("cy", d => yLinearScale(d[chosenYAxis]))
-    .attr("r", 20)
+    .attr("r", 15)
     .attr("fill", "blue")
     .attr("opacity", ".5");
 
